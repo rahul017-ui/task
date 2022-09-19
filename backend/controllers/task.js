@@ -1,6 +1,6 @@
 const todotask = require("../model/task");
 
-// Get All products
+// Get All tasks
 const gettasks = async (req, res) => {
 
   try {
@@ -11,17 +11,17 @@ const gettasks = async (req, res) => {
   }
 };
 
-// Single product
+// Single task
 const gettask = async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await todotask.findById(req.params.taskId);
     res.json(user);
   } catch (error) {
     res.json({ message: error });
   }
 };
 
-// Add New product
+// Add New task
 const createtask = async (req, res) => {
     
    try {
@@ -39,7 +39,7 @@ const createtask = async (req, res) => {
   }
 };
 
-// Update product
+// Update task
 const updatetask = async (req, res) => {
   try {
     const task = {

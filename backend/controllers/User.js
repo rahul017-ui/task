@@ -1,14 +1,16 @@
 const User = require("../model/User");
 const todotask = require("../model/task");
+const { merge } = require("rxjs-compat/operator/merge");
 
 
 // Get All user
 const getusers = async (req, res) => {
     try {
         const users = await User.findById(req.params.userId);
-        // const task =await todotask.findOne({user_id:req.params.userId});
+        const task =await todotask.findOne({user_id:req.params.userId});
+        const userData = {"user":users,"task":task};
         // const user=[users,task]    
-       res.json(users);
+       res.json(userData);
         
       } catch (error) {
         res.json({ message: error });
@@ -18,7 +20,9 @@ const getusers = async (req, res) => {
 // Single user
 const getuser = async (req, res) => {
     try {
-        const user = await User.findById(req.params.userId);
+        const user = await User.find();
+       
+        
         res.json(user);
       } catch (error) {
         
