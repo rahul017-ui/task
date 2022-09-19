@@ -6,7 +6,8 @@ const todotask = require("../model/task");
 const getusers = async (req, res) => {
     try {
         const users = await User.findById(req.params.userId);
-                     
+        // const task =await todotask.findOne({user_id:req.params.userId});
+        // const user=[users,task]    
        res.json(users);
         
       } catch (error) {
@@ -20,6 +21,7 @@ const getuser = async (req, res) => {
         const user = await User.findById(req.params.userId);
         res.json(user);
       } catch (error) {
+        
         res.json({ message: error });
       }
 };
@@ -43,7 +45,7 @@ const taskuser  =async (req,res)=>{
 
     })
     const sav =await us.save();
-    // res.send(sav);
+    console.log(sav)
     const sa = await tas.save();
     res.send(sa);
   }catch (error) {
