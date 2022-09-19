@@ -5,8 +5,8 @@ const todotask = require("../model/task");
 // Get All user
 const getusers = async (req, res) => {
     try {
-        const users = await User.find();
-        res.json(users);
+        const users = await User.findById(req.params.userId);
+         res.json(users);
         
       } catch (error) {
         res.json({ message: error });
@@ -25,29 +25,30 @@ const getuser = async (req, res) => {
 
 // Add New user
 
-// const taskuser  =async (req,res)=>{
-//   try {
-//     const us =new User({
-//       name: req.body.name,
-//       email: req.body.email,
-//       contact: req.body.contact,
-//       username: req.body.username,
-//       password: req.body.password,
+const taskuser  =async (req,res)=>{
+  try {
+    const us =new User({
+      name: req.body.name,
+      email: req.body.email,
+      contact: req.body.contact,
+      username: req.body.username,
+      password: req.body.password,
 
-//     });
-//     const tas = new todotask({
-//       pincode: req.body.pincode,
-//       task: req.body.task,
+    });
+    const tas = new todotask({
+    user_id:us._id,
+      pincode: req.body.pincode,
+      task: req.body.task,
 
-//     })
-//     const sav =await us.save();
-//     res.send(sav);
-//     const sa = await tas.save();
-//     res.send(sa);
-//   }catch (error) {
-//     res.status(400).send(error);
-//   }
-// }
+    })
+    const sav =await us.save();
+    // res.send(sav);
+    const sa = await tas.save();
+    res.send(sa);
+  }catch (error) {
+    res.status(400).send(error);
+  }
+}
 
 
 
@@ -107,5 +108,5 @@ module.exports = {
     createuser, 
     userupdate, 
     deleteuser,
-    taskuser
+  taskuser
   }
