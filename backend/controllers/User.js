@@ -1,6 +1,5 @@
 const User = require("../model/User");
 const todotask = require("../model/task");
-const { merge } = require("rxjs-compat/operator/merge");
 
 
 // Get All user
@@ -22,7 +21,6 @@ const getuser = async (req, res) => {
     try {
         const user = await User.find();
        
-        
         res.json(user);
       } catch (error) {
         
@@ -39,9 +37,17 @@ const taskuser  =async (req,res)=>{
       email: req.body.email,
       contact: req.body.contact,
       username: req.body.username,
-      password: req.body.password,
+      password: req.body.password
 
     });
+  const eml=await User.findOne({email:req.body.email});
+  if(eml){
+    return res.status(409).send("user email already exist");
+  }
+  const usname=await User.findOne({username:req.body.username});
+  if(usname){
+    return res.status(409).send("username already exist");
+  }
     const tas = new todotask({
     user_id:us._id,
       pincode: req.body.pincode,
@@ -49,7 +55,8 @@ const taskuser  =async (req,res)=>{
 
     })
     const sav =await us.save();
-    console.log(sav)
+    console.log(sav);
+   
     const sa = await tas.save();
     res.send(sa);
   }catch (error) {
