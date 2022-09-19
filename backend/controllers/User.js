@@ -7,7 +7,8 @@ const getusers = async (req, res) => {
     try {
         const users = await User.findById(req.params.userId);
         const task =await todotask.findOne({user_id:req.params.userId});
-        const userData = {"user":users,"task":task};
+        
+        const userData = {"user":users,"task":task,"status":"Active"};
         // const user=[users,task]    
        res.json(userData);
         
@@ -27,6 +28,7 @@ const getuser = async (req, res) => {
         res.json({ message: error });
       }
 };
+
 
 // Add New user
 
@@ -55,10 +57,12 @@ const taskuser  =async (req,res)=>{
 
     })
     const sav =await us.save();
-    console.log(sav);
+    
    
     const sa = await tas.save();
-    res.send(sa);
+    const userData = {"user":sav,"task":sa};
+
+    res.json(userData);
   }catch (error) {
     res.status(400).send(error);
   }
@@ -78,6 +82,14 @@ const createuser = async (req, res) => {
           password: req.body.password,
          
           });
+          const eml=await User.findOne({email:req.body.email});
+  if(eml){
+    return res.status(409).send("user email already exist");
+  }
+  const usname=await User.findOne({username:req.body.username});
+  if(usname){
+    return res.status(409).send("username already exist");
+  }
         const saveduser = await user.save();
         res.send(saveduser);
       } catch (error) {
@@ -105,12 +117,33 @@ const userupdate = async (req, res) => {
         res.json({ message: error });
       }
 };
+const userpatch = async (req, res) => {  
+    try {
+        const user = {
+     name: req.body.name,
+    email: req.body.email,
+    contact: req.body.contact,
+    username: req.body.username,
+    password: req.body.password,
+  };
+    
+        const updateduser = await User.findByIdAndUpdate(
+          { _id: req.params.userId },
+          user
+        );
+        res.json(updateduser);
+      } catch (error) {
+        res.json({ message: error });
+      }
+};
 
-// Delete user
+// Delete user and Task
 const deleteuser = async (req, res) => {
     try {
         const removeuser = await User.findByIdAndDelete(req.params.userId);
-        res.json(removeuser);
+        const task =await todotask.findOneAndDelete({user_id:req.params.userId});
+        const userDelete = {"user":removeuser,"task":task};
+        res.json(userDelete);
       } catch (error) {
         res.json({ message: error });
       }
@@ -122,5 +155,6 @@ module.exports = {
     createuser, 
     userupdate, 
     deleteuser,
-  taskuser
+  taskuser,
+  userpatch
   }

@@ -26,10 +26,11 @@ const createtask = async (req, res) => {
     
    try {
     const task = new todotask({
-    // user_id: req.params.id,
+      user_id: req.body.user_id,
 
       pincode: req.body.pincode,
       task: req.body.task,
+      status:Active
     });
     console.log(req.body);
     const savedtask = await task.save();
@@ -56,6 +57,22 @@ const updatetask = async (req, res) => {
     res.json({ message: error });
   }
 };
+const taskpatch = async (req, res) => {
+  try {
+    const task = {
+      pincode: req.body.pincode,
+      task: req.body.task,
+    };
+
+    const updatedtask = await todotask.findByIdAndUpdate(
+      { _id: req.params.userId },
+      task
+    );
+    res.json(updatedtask);
+  } catch (error) {
+    res.json({ message: error });
+  }
+};
 
 // Delete product
 const deletetask = async (req, res) => {
@@ -73,4 +90,5 @@ module.exports = {
   gettask,
   gettasks,
   deletetask,
+  taskpatch
 };
