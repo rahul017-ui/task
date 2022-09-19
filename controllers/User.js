@@ -1,10 +1,13 @@
 const User = require("../model/User");
+const todotask = require("../model/task");
+
 
 // Get All user
 const getusers = async (req, res) => {
     try {
         const users = await User.find();
         res.json(users);
+        
       } catch (error) {
         res.json({ message: error });
       }
@@ -20,18 +23,45 @@ const getuser = async (req, res) => {
       }
 };
 
-// Add New product
+// Add New user
+
+// const taskuser  =async (req,res)=>{
+//   try {
+//     const us =new User({
+//       name: req.body.name,
+//       email: req.body.email,
+//       contact: req.body.contact,
+//       username: req.body.username,
+//       password: req.body.password,
+
+//     });
+//     const tas = new todotask({
+//       pincode: req.body.pincode,
+//       task: req.body.task,
+
+//     })
+//     const sav =await us.save();
+//     res.send(sav);
+//     const sa = await tas.save();
+//     res.send(sa);
+//   }catch (error) {
+//     res.status(400).send(error);
+//   }
+// }
+
+
+
 const createuser = async (req, res) => {
     
     
       try {
         const user = new User({
-          name: req.body.name,
+         name: req.body.name,
           email: req.body.email,
           contact: req.body.contact,
           username: req.body.username,
           password: req.body.password,
-        
+         
           });
         const saveduser = await user.save();
         res.send(saveduser);
@@ -44,7 +74,7 @@ const createuser = async (req, res) => {
 const userupdate = async (req, res) => {
     try {
         const user = {
-          name: req.body.name,
+     name: req.body.name,
     email: req.body.email,
     contact: req.body.contact,
     username: req.body.username,
@@ -76,5 +106,6 @@ module.exports = {
     getuser, 
     createuser, 
     userupdate, 
-    deleteuser
+    deleteuser,
+    taskuser
   }

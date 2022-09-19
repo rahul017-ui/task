@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const taskController = require('../controllers/task');
 
-router.post("/add/:userId", taskController.createtask);
+router.post("/add", taskController.createtask);
 
 router.get("/gettasklist", taskController.gettasks);
 router.get("/gettasklist/:taskId", taskController.gettask);

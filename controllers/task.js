@@ -26,7 +26,7 @@ const createtask = async (req, res) => {
     
    try {
     const task = new todotask({
-    user_id: req.params.id,
+    // user_id: req.params.id,
 
       pincode: req.body.pincode,
       task: req.body.task,
