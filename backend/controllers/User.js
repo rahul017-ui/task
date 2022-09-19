@@ -6,8 +6,8 @@ const todotask = require("../model/task");
 const getusers = async (req, res) => {
     try {
         const users = await User.findById(req.params.userId);
-     
-         res.json(users);     
+                     
+       res.json(users);
         
       } catch (error) {
         res.json({ message: error });
@@ -17,7 +17,7 @@ const getusers = async (req, res) => {
 // Single user
 const getuser = async (req, res) => {
     try {
-        const user = await Product.findById(req.params.userId);
+        const user = await User.findById(req.params.userId);
         res.json(user);
       } catch (error) {
         res.json({ message: error });

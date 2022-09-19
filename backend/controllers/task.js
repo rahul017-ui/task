@@ -14,8 +14,8 @@ const gettasks = async (req, res) => {
 // Single product
 const gettask = async (req, res) => {
   try {
-    const task = await todotask.findById(req.params.taskId);
-    res.json(task);
+    const user = await User.findById(req.params.userId);
+    res.json(user);
   } catch (error) {
     res.json({ message: error });
   }
